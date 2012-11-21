@@ -40,7 +40,7 @@ public class GPXcalculatorTest {
 
 	@Test
 	public void testElapsedTimeGPXtrk() {		
-		long time = calc.calculateElapsedTime(obj.trk());
+		long time = obj.trk().calculateElapsedTime();
 
 		// should be three days
 		long threeDays = 3 * 24 * 60 * 60 * 1000;
@@ -50,12 +50,12 @@ public class GPXcalculatorTest {
 	@Test
 	public void testElapsedTimeGPXtrkseg() {
 		
-		long time = calc.calculateElapsedTime(obj.trk().trkseg(0));
+		long time = obj.trk().trkseg(0).calculateElapsedTime();
 		// should be one day
 		long oneDay = 24 * 60 * 60 * 1000;
 		assertEquals(oneDay, time);
 
-		time = calc.calculateElapsedTime(obj.trk().trkseg(1));
+		time = obj.trk().trkseg(1).calculateElapsedTime();
 		// should be two days
 		assertEquals(oneDay * 2, time);
 		
@@ -71,10 +71,10 @@ public class GPXcalculatorTest {
 
 	@Test
 	public void testDistanceTraveledGPXtrkseg() {
-		double dist = calc.determineTotalDistanceCoveredBetweenPairsOfPointsInGPXTrackSegment(obj.trk().trkseg(0));
+		double dist = calc.calculateDistanceTraveled(obj.trk().trkseg(0));
 		assertEquals(1568.552, dist, 0.01);
 		
-		dist = calc.determineTotalDistanceCoveredBetweenPairsOfPointsInGPXTrackSegment(obj.trk().trkseg(1));
+		dist = calc.calculateDistanceTraveled(obj.trk().trkseg(1));
 		assertEquals(1499.132, dist, 0.01);
 	}
 	

@@ -10,43 +10,6 @@ public class GPXcalculator {
 
     public static final int R = 6371; // radius of the earth in km
     
-    long t;
-    
-    public long calculateElapsedTime(Object o) {
-    	if (o instanceof GPXtrk) return time1((GPXtrk)o);
-    	else if (o instanceof GPXtrkseg) {
-    		GPXtrkseg seg = (GPXtrkseg)o;
-    		return GPXtrkseg.elapsedTime(seg);
-    	}
-    	else return -1;
-    }
-
-
-    /**
-     * Calculates the elapsed time for all segments in the track.
-     * Note that it does not include the time <b>between</b> segments.
-     *
-     * @param trk The track for which to calculate the elapsed time.
-     * @return the elapsed time in seconds; -1 if the track object is null
-     */
-    private long time1(GPXtrk trk) {
-	
-		if (trk == null) return -1;
-	
-		t = 0;
-	
-		// iterate over all the segments and calculate the time for each
-		GPXtrkseg trksegs[] = trk.trksegs();
-	
-		for (int i = 0; i < trksegs.length; i++) {
-		    // keep a running total of the time for each segment
-		    t += calculateElapsedTime(trksegs[i]);
-		}
-		
-		return t;
-    }
-
-
     /**
      * Calculates the distance traveled over the given segment by returning
      * the sum of the distances between successive track points.
@@ -57,7 +20,7 @@ public class GPXcalculator {
      * @param trkseg The track segment for which to calculate the distance traveled.
      * @return the total distance in meters
      */
-    public double determineTotalDistanceCoveredBetweenPairsOfPointsInGPXTrackSegment(GPXtrkseg trkseg) {
+    public double calculateDistanceTraveled(GPXtrkseg trkseg) {
 
 		double totalDistance = 0;
 		
@@ -111,34 +74,9 @@ public class GPXcalculator {
 	
 		for (int i = 0; i < segs.length; i++) {
 		    // calculate the distance for each segment
+		    // add it to the running total
 
-			// iterate over all the trkpts
-			GPXtrkpt pts[] = segs[i].getTrkpts();
-		
-			for (int j = 0; j < pts.length-1; j++) {
-			    
-			    // get this point and the next one
-			    GPXtrkpt pt1 = pts[j];
-			    GPXtrkpt pt2 = pts[j+1];
-			    
-			    // convert lat and lon from degrees to radians
-			    double lat1 = pt1.lat() * 2 * Math.PI / 360.0;
-			    double lon1 = pt1.lon() * 2 * Math.PI / 360.0;
-			    double lat2 = pt2.lat() * 2 * Math.PI / 360.0;
-			    double lon2 = pt2.lon() * 2 * Math.PI / 360.0;
-			    
-			    // use the spherical law of cosines to figure out 2D distance
-			    double d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1)) * R;	
-			    // now we need to take the change in elevation into account
-			    double ele1 = pt1.ele();
-			    double ele2 = pt2.ele();
-			    
-			    // calculate the 3D distance
-			    double distance = Math.sqrt(d*d + (ele1-ele2)*(ele1-ele2));
-			    
-			    // add it to the running total
-			    totalDistance += distance;
-			}
+			totalDistance += calculateDistanceTraveled(segs[i]);
 		}
 	
 		return totalDistance;
@@ -162,7 +100,7 @@ public class GPXcalculator {
 	
 		for (int i = 0; i < trksegs.length; i++) {
 		    // keep a running total of the time for each segment
-		    time += calculateElapsedTime(trksegs[i]);
+		    time += trksegs[i].calculateElapsedTime();
 		}		
 		
 		// figure out the distance in kilometers
@@ -188,7 +126,7 @@ public class GPXcalculator {
 		double fastestTime = 0;
 	
 		for (int i = 0; i < trksegs.length; i++) {
-		    if (determineTotalDistanceCoveredBetweenPairsOfPointsInGPXTrackSegment(trksegs[i])/calculateElapsedTime(trksegs[i]) >= fastestTime)
+		    if (calculateDistanceTraveled(trksegs[i])/trksegs[i].calculateElapsedTime() >= fastestTime)
 			fastestSegment = i;
 		}
 	

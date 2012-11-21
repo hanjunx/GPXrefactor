@@ -87,5 +87,28 @@ public class GPXtrk {
 	
 	}
 
+	/**
+	 * Calculates the elapsed time for all segments in the track.
+	 * Note that it does not include the time <b>between</b> segments.
+	 *
+	 * @return the elapsed time in seconds; -1 if the track object is null
+	 */
+	long calculateElapsedTime() {
+	
+		if (this == null) return -1;
+	
+		long t = 0;
+	
+		// iterate over all the segments and calculate the time for each
+		GPXtrkseg trksegs[] = trksegs();
+	
+		for (int i = 0; i < trksegs.length; i++) {
+		    // keep a running total of the time for each segment
+		    t += trksegs[i].calculateElapsedTime();
+		}
+		
+		return t;
+	}
+
 
 }
