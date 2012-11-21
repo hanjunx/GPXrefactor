@@ -16,7 +16,7 @@ public class GPXcalculator {
     	if (o instanceof GPXtrk) return time1((GPXtrk)o);
     	else if (o instanceof GPXtrkseg) {
     		GPXtrkseg seg = (GPXtrkseg)o;
-    		return GPXtrkseg.time(seg);
+    		return GPXtrkseg.elapsedTime(seg);
     	}
     	else return -1;
     }
@@ -62,7 +62,7 @@ public class GPXcalculator {
 		double totalDistance = 0;
 		
 		// iterate over all the trkpts
-		GPXtrkpt pts[] = trkseg.trkpts();
+		GPXtrkpt pts[] = trkseg.getTrkpts();
 	
 		for (int j = 0; j < pts.length-1; j++) {
 		    
@@ -113,7 +113,7 @@ public class GPXcalculator {
 		    // calculate the distance for each segment
 
 			// iterate over all the trkpts
-			GPXtrkpt pts[] = segs[i].trkpts();
+			GPXtrkpt pts[] = segs[i].getTrkpts();
 		
 			for (int j = 0; j < pts.length-1; j++) {
 			    
@@ -185,10 +185,10 @@ public class GPXcalculator {
     public double bearing(GPXtrk trk) {
 
 		// get the first trkpt in the first trkseg
-		GPXtrkpt start = trk.trkseg(0).trkpt(0);
+		GPXtrkpt start = trk.trkseg(0).getTrkpt(0);
 		// get the last trkpt in the last trkseg
 		GPXtrkseg lastSeg = trk.trkseg(trk.numSegments()-1);
-		GPXtrkpt end = lastSeg.trkpt(lastSeg.numPoints()-1);
+		GPXtrkpt end = lastSeg.getTrkpt(lastSeg.numPoints()-1);
 	
 		// get the points and convert to radians
 		double lat1 = start.lat() * 2 * Math.PI / 360.0;

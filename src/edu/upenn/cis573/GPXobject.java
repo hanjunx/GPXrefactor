@@ -60,7 +60,7 @@ public class GPXobject {
 			out.append("\t\t<trkseg>\n");
 			
 			// get all the trkpt objects
-			GPXtrkpt trkpts[] = trksegs[i].trkpts();
+			GPXtrkpt trkpts[] = trksegs[i].getTrkpts();
 	
 			// iterate over the trkpts
 			for (int j = 0; j < trkpts.length; j++) {

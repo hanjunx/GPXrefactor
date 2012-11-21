@@ -26,7 +26,7 @@ public class GPXparserTest {
 		assertEquals("Walking around a little bit", trk.name());
 		
 		GPXtrkseg[] trksegs = trk.trksegs();
-		GPXtrkpt trkpt = trksegs[0].trkpt(0);
+		GPXtrkpt trkpt = trksegs[0].getTrkpt(0);
 
 		assertEquals(47.644548, trkpt.lat(), 0.001);
 		assertEquals(-122.326897, trkpt.lon(), 0.001);
@@ -48,7 +48,7 @@ public class GPXparserTest {
 		assertEquals(obj, trk.parent());
 		
 		GPXtrkseg[] trksegs = trk.trksegs();
-		GPXtrkpt trkpt = trksegs[0].trkpt(0);
+		GPXtrkpt trkpt = trksegs[0].getTrkpt(0);
 
 		assertEquals(47.644548, trkpt.lat(), 0.001);
 		assertEquals(-122.326897, trkpt.lon(), 0.001);
@@ -70,7 +70,7 @@ public class GPXparserTest {
 		assertEquals("Walking around a little bit", trk.name());
 		
 		GPXtrkseg[] trksegs = trk.trksegs();		
-		assertEquals(0, trksegs[0].trkpts().length);
+		assertEquals(0, trksegs[0].getTrkpts().length);
 	}
 
 }
