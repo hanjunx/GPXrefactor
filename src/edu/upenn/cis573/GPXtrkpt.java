@@ -6,6 +6,8 @@ package edu.upenn.cis573;
 
 public class GPXtrkpt {
 
+    // radius of the earth in km
+	public static final int R = 6371; 
     // latitude
     private double lat;
     // longitude

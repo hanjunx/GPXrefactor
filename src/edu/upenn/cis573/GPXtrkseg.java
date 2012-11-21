@@ -44,8 +44,10 @@ public class GPXtrkseg {
     /**
      * Calculates the elapsed time for the given segment by returning
      * the difference between the first and last track points.
-     *
-     * @param trkseg The track segment for which to calculate the elapsed time.
+	 * The distance takes into account latitude, longitude, elevation, and curvature of the earth.
+	 * To account for the curvature of the earth, the spherical law of cosines
+	 * is used, based on http://www.movable-type.co.uk/scripts/latlong.html
+     * 
      * @return the elapsed time in seconds; -1 if the track segment object is null
      */
 
@@ -62,6 +64,52 @@ public class GPXtrkseg {
 		return end - start;
 
     }
+
+	/**
+	 * Calculates the distance traveled over the given segment by returning
+	 * the sum of the distances between successive track points.
+	 * The distance takes into account latitude, longitude, elevation, and curvature of the earth.
+	 * To account for the curvature of the earth, the spherical law of cosines
+	 * is used, based on http://www.movable-type.co.uk/scripts/latlong.html
+	 *
+	 * @return the total distance in meters
+	 */
+	public double calculateDistanceTraveled() {
+	
+		double totalDistance = 0;
+		
+		// iterate over all the trkpts
+		GPXtrkpt pts[] = getTrkpts();
+	
+		for (int j = 0; j < pts.length-1; j++) {
+		    
+		    // get this point and the next one
+		    GPXtrkpt pt1 = pts[j];
+		    GPXtrkpt pt2 = pts[j+1];
+		    
+		    // convert lat and lon from degrees to radians
+		    double lat1 = pt1.lat() * 2 * Math.PI / 360.0;
+		    double lon1 = pt1.lon() * 2 * Math.PI / 360.0;
+		    double lat2 = pt2.lat() * 2 * Math.PI / 360.0;
+		    double lon2 = pt2.lon() * 2 * Math.PI / 360.0;
+		    
+		    // use the spherical law of cosines to figure out 2D distance
+		    double d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1)) * GPXtrkpt.R;	
+		    // now we need to take the change in elevation into account
+		    double ele1 = pt1.ele();
+		    double ele2 = pt2.ele();
+		    
+		    // calculate the 3D distance
+		    double distance = Math.sqrt(d*d + (ele1-ele2)*(ele1-ele2));
+		    
+		    // add it to the running total
+		    totalDistance += distance;
+	    
+		}
+		
+		return totalDistance;
+	
+	}
 
 
 }

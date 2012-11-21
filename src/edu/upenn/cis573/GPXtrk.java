@@ -93,7 +93,7 @@ public class GPXtrk {
 	 *
 	 * @return the elapsed time in seconds; -1 if the track object is null
 	 */
-	long calculateElapsedTime() {
+	public long calculateElapsedTime() {
 	
 		if (this == null) return -1;
 	
@@ -108,6 +108,78 @@ public class GPXtrk {
 		}
 		
 		return t;
+	}
+
+	/**
+	 * Calculate the average speed over the entire track by determining
+	 * the distance traveled and the total time for each segment.
+	 *
+	 * @param trk The track for which to calculate the average speed
+	 * @return the average speed in meters per second.
+	 */
+	public double calculateAverageSpeed() {
+	
+		long time = 0;
+	
+		// iterate over all the segments and calculate the time for each
+	
+		for (int i = 0; i < trksegs.size(); i++) {
+		    // keep a running total of the time for each segment
+		    time += trksegs.get(i).calculateElapsedTime();
+		}		
+		
+		// figure out the distance in kilometers
+		double distance = calculateDistanceTraveled();
+	
+		// return the average in meters/second
+		return distance/time;
+	
+	}
+
+	/**
+	 * Calculates the distance traveled over all segments in the specified
+	 * track by returning the sum of the distances for each track segment.
+	 *
+	 * @return the total distance in meters
+	 */
+	public double calculateDistanceTraveled() {
+	
+		double totalDistance = 0;
+	
+		// iterate over all the trksegs
+	
+		for (int i = 0; i < trksegs.size(); i++) {
+		    // calculate the distance for each segment
+		    // add it to the running total
+	
+			totalDistance += trksegs.get(i).calculateDistanceTraveled();
+		}
+	
+		return totalDistance;
+	
+	
+	}
+
+	/**
+	 * Determines which track segment has the fastest average speed.
+	 *
+	 * @param trk The track for which to calculate the fastest segment.
+	 * @return the 0-based index of the fastest segment.
+	 */
+	public int calculateFastestSegment() {
+	
+		trksegs();
+	
+		int fastestSegment = 0;
+		double fastestTime = 0;
+	
+		for (int i = 0; i < trksegs.size(); i++) {
+		    if (trksegs.get(i).calculateDistanceTraveled()/trksegs.get(i).calculateElapsedTime() >= fastestTime)
+			fastestSegment = i;
+		}
+	
+		return fastestSegment;
+	
 	}
 
 

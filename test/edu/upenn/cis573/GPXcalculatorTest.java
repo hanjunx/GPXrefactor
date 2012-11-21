@@ -11,7 +11,6 @@ import org.junit.Test;
 public class GPXcalculatorTest {
 
 	private GPXobject obj;
-	private GPXcalculator calc = new GPXcalculator();
 
 	@Before
 	public void setUp() throws Exception {
@@ -64,24 +63,24 @@ public class GPXcalculatorTest {
 	@Test
 	public void testDistanceTraveledGPXtrk() {
 		
-		double dist = calc.calculateDistanceTraveled(obj.trk());
+		double dist = obj.trk().calculateDistanceTraveled();
 		
 		assertEquals(3067.685, dist, 0.01);
 	}
 
 	@Test
 	public void testDistanceTraveledGPXtrkseg() {
-		double dist = calc.calculateDistanceTraveled(obj.trk().trkseg(0));
+		double dist = obj.trk().trkseg(0).calculateDistanceTraveled();
 		assertEquals(1568.552, dist, 0.01);
 		
-		dist = calc.calculateDistanceTraveled(obj.trk().trkseg(1));
+		dist = obj.trk().trkseg(1).calculateDistanceTraveled();
 		assertEquals(1499.132, dist, 0.01);
 	}
 	
 	@Test
 	public void testAverageSpeed() {
 		
-		double speed = calc.calculateAverageSpeed(obj.trk());
+		double speed = obj.trk().calculateAverageSpeed();
 		assertEquals(0.000011835, speed, 0.0000001);
 
 	}
@@ -97,7 +96,7 @@ public class GPXcalculatorTest {
 	@Test
 	public void testFastestSegment() {
 		
-		int fastest = calc.calculateFastestSegment(obj.trk());
+		int fastest = obj.trk().calculateFastestSegment();
 		assertEquals(1, fastest);
 		
 	}
