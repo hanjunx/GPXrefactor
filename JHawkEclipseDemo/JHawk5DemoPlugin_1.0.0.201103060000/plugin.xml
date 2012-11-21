@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+     <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.TaskList"
+               relationship="stack"
+               id="com.virtualmachinery.jhawkdemo.eclipse.ui.views.JHawkMetricView">
+         </view>
+      </perspectiveExtension>
+    </extension>
+    <extension
+   		id="com.virtualmachinery.eclipse.ui.JHawkMetricView"
+   		name="Sample Views" 
+   		point="org.eclipse.ui.views">
+  		<category 
+  		  name="JHawk5 Metrics" 
+  		  id="com.virtualmachinery.eclipse.ui.JHawk5Metrics" /> 
+  		<view 
+  			name="JHawk Metrics" 
+  			icon="hawk16.gif" 
+  			category="com.virtualmachinery.eclipse.ui.JHawk5Metrics"
+            class="com.virtualmachinery.jhawkdemo.eclipse.ui.views.JHawkPluginView"
+            id="com.virtualmachinery.jhawkdemo.eclipse.ui.views.JHawkPluginView"
+        />
+    </extension>
+
+
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            id="ContributionPackageProject">
+         <action
+               label="%VMJHawkAnalyzeProject.label"
+               tooltip="%VMJHawkAnalyzeProject.tooltip"
+               icon="hawk16.gif"
+               class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+               menubarPath="group.build"
+               id="ContributionPackageProjectAction">
+         </action>
+      </objectContribution>
+   </extension>
+  
+   <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.core.resources.IFile"
+                        nameFilter="*.java"
+                        id="ContributionFile">
+    <action label="%VMJHawkAnalyzeFile.label"
+            tooltip="%VMJHawkAnalyzeFile.tooltip"
+            icon="hawk16.gif"
+            class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+            menubarPath="additions"
+            id="ContributionFileAction">
+    </action>
+    </objectContribution>
+  </extension>
+  
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.jdt.core.IFolder"
+                        id="ContributionFolder">
+      <action label="%VMJHawkAnalyzeFolder.label"
+              tooltip="%VMJHawkAnalyzeFolder.tooltip"
+              icon="hawk16.gif"
+              class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+              menubarPath="additions"
+              id="ContributionFolderAction">
+      </action>
+    </objectContribution>
+  </extension>
+  
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.jdt.core.IJavaProject"
+                        id="ContributionPackageProject">
+      <action label="%VMJHawkAnalyzeProject.label"
+              tooltip="%VMJHawkAnalyzeProject.tooltip"
+              icon="hawk16.gif"
+              class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+              menubarPath="group.build"
+              id="ContributionPackageProjectAction">
+      </action>
+    </objectContribution>
+  </extension>
+
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.jdt.core.IPackageFragmentRoot"
+                        id="ContributionPackageFragmentRoot">
+      <action label="%VMJHawkAnalyzePackage.label"
+              tooltip="%VMJHawkAnalyzePackage.tooltip"
+              icon="hawk16.gif"
+              class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+              menubarPath="group.build"
+              id="ContributionPackageFragmentRootAction">
+      </action>
+    </objectContribution>
+  </extension>
+
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.jdt.core.IPackageFragment"
+                        id="ContributionPackageFragment">
+      <action label="%VMJHawkAnalyzePackage.label"
+              tooltip="%VMJHawkAnalyzePackage.tooltip"
+              icon="hawk16.gif"
+              class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+              menubarPath="group.build"
+              id="ContributionPackageFragmentAction">
+      </action>
+    </objectContribution>
+  </extension>
+
+  <extension point="org.eclipse.ui.popupMenus">
+    <objectContribution objectClass="org.eclipse.jdt.core.ICompilationUnit"
+                        id="ContributionCompilationUnit">
+      <action label="%VMJHawkAnalyzeFile.label"
+              tooltip="%VMJHawkAnalyzeFile.tooltip"
+              icon="hawk16.gif"
+              class="com.virtualmachinery.jhawkdemo.eclipse.plugin.popup.actions.AnalyzeFile"
+              menubarPath="group.build"
+              id="ContributionCompilationUnitAction">
+      </action>
+    </objectContribution>
+  </extension>
+  
+    <extension
+        point="org.eclipse.ui.preferencePages">
+     <page
+           class="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferencePage"
+           id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferencePage"
+           name="JHawk Preferences">
+           <keywordReference id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.general"/>
+  	</page>
+     <page
+           class="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkSystemMetricPreferencePage"
+           id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkSystemMetricPreferencePage"
+           name="JHawk System Metric Preferences"
+           category="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferencePage">
+           <keywordReference id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.package"/>
+  	</page>
+    <page
+           class="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPackageMetricPreferencePage"
+           id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPackageMetricPreferencePage"
+           name="JHawk Package Metric Preferences"
+           category="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferencePage">
+           <keywordReference id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.package"/>
+  	</page>
+     <page
+           class="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkClassMetricPreferencePage"
+           id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkClassMetricPreferencePage"
+           name="JHawk Class Metric Preferences"
+           category="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferencePage">
+           <keywordReference id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.class"/>
+  	</page>
+     <page
+           class="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkMethodMetricPreferencePage"
+           id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkMethodMetricPreferencePage"
+           name="%JHawk Method Metric Preferences"
+           category="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferencePage">
+           <keywordReference id="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.method"/>
+  	</page>
+  </extension>
+  <extension
+        point="org.eclipse.core.runtime.preferences">
+     <initializer class="com.virtualmachinery.jhawkdemo.eclipse.ui.preferences.JHawkPreferenceInitializer"/>
+  </extension>
+ 
+  
+
+</plugin>
