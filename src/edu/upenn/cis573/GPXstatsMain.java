@@ -31,7 +31,7 @@ public class GPXstatsMain {
 		GPXobject object = GPXparser.parse(filename, format);
 	
 		// print the stats
-		long elapsedTime = new GPXcalculator().calculateElapsedTime(object.trk());
+		long elapsedTime = object.trk().calculateElapsedTime();
 	
 		// DONE!
 		System.out.println("Elapsed time = " + elapsedTime);

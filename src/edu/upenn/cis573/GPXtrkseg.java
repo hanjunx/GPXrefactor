@@ -49,13 +49,13 @@ public class GPXtrkseg {
      * @return the elapsed time in seconds; -1 if the track segment object is null
      */
 
-    public static long elapsedTime(GPXtrkseg trkseg) {
+    public long calculateElapsedTime() {
 		// get the time of the first point of the segment
-		GPXtrkpt firstPt = trkseg.getTrkpt(0);
+		GPXtrkpt firstPt = getTrkpt(0);
 		long start = firstPt.time();
 		
 		// get the time of the last point of the segment
-		GPXtrkpt lastPt = trkseg.getTrkpt(trkseg.numPoints() - 1);
+		GPXtrkpt lastPt = getTrkpt(numPoints() - 1);
 		long end = lastPt.time();
 		
 		// total elapsed time in milliseconds
