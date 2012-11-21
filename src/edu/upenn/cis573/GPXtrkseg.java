@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class GPXtrkseg {
     
-    private ArrayList trkpts;
+    private ArrayList<GPXtrkpt> trkpts;
 
-    public GPXtrkseg(ArrayList trkpts) {
+    public GPXtrkseg(ArrayList<GPXtrkpt> trkpts) {
     	this.trkpts = trkpts;
     }
 

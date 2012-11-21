@@ -15,11 +15,11 @@ public class GPXobject {
     // holds all the information about the track
     private GPXtrk trk;
     // list of all the track segments
-    private ArrayList trksegs;
+    // private ArrayList<GPXtrkseg> trksegs;
     // string buffer used for printing
     private StringBuffer out;
 
-    public GPXobject(String time, String name, ArrayList trksegs) {
+    public GPXobject(String time, String name, ArrayList<GPXtrkseg> trksegs) {
     	this.time = time;
     	this.trk = new GPXtrk(name, trksegs, this);
     }

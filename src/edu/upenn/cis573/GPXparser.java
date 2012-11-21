@@ -35,7 +35,7 @@ public class GPXparser {
 		    in.useDelimiter(">");
 	
 		    // get the list of tags
-		    ArrayList tags = format.tags();
+		    ArrayList<String> tags = format.tags();
 		    // index for reading the list
 		    int index = 0;
 	
@@ -73,7 +73,7 @@ public class GPXparser {
 		    }
 	
 		    // to hold the GPXtrk objects
-		    ArrayList trksegs = new ArrayList();
+		    ArrayList<GPXtrkseg> trksegs = new ArrayList<GPXtrkseg>();
 
 
 		    // now we have some number of <trkseg> tags
@@ -82,7 +82,7 @@ public class GPXparser {
 				in.next();
 				
 				// to hold the GPXtrkpt objects
-				ArrayList trkpts = new ArrayList();
+				ArrayList<GPXtrkpt> trkpts = new ArrayList<GPXtrkpt>();
 		
 				// now we have some number of <trkpt> tags
 				while (tags.get(index++).equals("<trkpt")) {
