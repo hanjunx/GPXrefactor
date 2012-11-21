@@ -175,34 +175,6 @@ public class GPXcalculator {
 
 
     /**
-     * Calculate the bearing (direction) from the first point in the
-     * track to the last point in the track, using the bearing calculation
-     * from http://www.movable-type.co.uk/scripts/latlong.html
-     *
-     * @param trk The track for which to calculate the overall bearing.
-     * @return the bearing in degrees
-     */
-    public double bearing(GPXtrk trk) {
-
-		// get the first trkpt in the first trkseg
-		GPXtrkpt start = trk.trkseg(0).getTrkpt(0);
-		// get the last trkpt in the last trkseg
-		GPXtrkseg lastSeg = trk.trkseg(trk.numSegments()-1);
-		GPXtrkpt end = lastSeg.getTrkpt(lastSeg.numPoints()-1);
-	
-		// get the points and convert to radians
-		double lat1 = start.lat() * 2 * Math.PI / 360.0;
-		double lon1 = start.lon() * 2 * Math.PI / 360.0;
-		double lat2 = end.lat() * 2 * Math.PI / 360.0;
-		double lon2 = end.lon() * 2 * Math.PI / 360.0;
-		
-		return trk.parent().bearing(lat1, lon1, lat2, lon2);
-	
-
-    }
-
-
-    /**
      * Determines which track segment has the fastest average speed.
      *
      * @param trk The track for which to calculate the fastest segment.

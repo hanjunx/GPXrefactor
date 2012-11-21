@@ -51,5 +51,41 @@ public class GPXtrk {
 		for (int i = 0; i < segs.length; i++) segs[i] = (GPXtrkseg)trksegs.get(i);
 		return segs;
     }
+    
+    public double bearing(double a, double b, double c, double d) {
+		double y = Math.sin(d-b) * Math.cos(c);
+		double x = Math.cos(a)*Math.sin(c) - Math.sin(a)*Math.cos(c)*Math.cos(d-b);
+				
+		// return the bearing (after converting to degrees)
+		return Math.atan2(y, x) * 360.0 / (2 * Math.PI);
+
+    }
+
+	/**
+	 * Calculate the bearing (direction) from the first point in the
+	 * track to the last point in the track, using the bearing calculation
+	 * from http://www.movable-type.co.uk/scripts/latlong.html
+	 *
+	 * @return the bearing in degrees
+	 */
+	public double bearing() {
+	
+		// get the first trkpt in the first trkseg
+		GPXtrkpt start = trkseg(0).getTrkpt(0);
+		// get the last trkpt in the last trkseg
+		GPXtrkseg lastSeg = trkseg(numSegments()-1);
+		GPXtrkpt end = lastSeg.getTrkpt(lastSeg.numPoints()-1);
+	
+		// get the points and convert to radians
+		double lat1 = start.lat() * 2 * Math.PI / 360.0;
+		double lon1 = start.lon() * 2 * Math.PI / 360.0;
+		double lat2 = end.lat() * 2 * Math.PI / 360.0;
+		double lon2 = end.lon() * 2 * Math.PI / 360.0;
+		
+		return bearing(lat1, lon1, lat2, lon2);
+	
+	
+	}
+
 
 }

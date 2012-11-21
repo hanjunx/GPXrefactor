@@ -20,18 +20,18 @@ public class GPXcalculatorTest {
 		GPXtrkpt pt2 = new GPXtrkpt(20, 20, 20, "2012-10-31T15:03:00Z");
 		GPXtrkpt pt3 = new GPXtrkpt(30, 30, 30, "2012-11-02T15:03:00Z");
 		
-		ArrayList pts0 = new ArrayList();
+		ArrayList<GPXtrkpt> pts0 = new ArrayList<GPXtrkpt>();
 		pts0.add(pt0);
 		pts0.add(pt1);
 		
-		ArrayList pts1 = new ArrayList();
+		ArrayList<GPXtrkpt> pts1 = new ArrayList<GPXtrkpt>();
 		pts1.add(pt2);
 		pts1.add(pt3);
 		
 		GPXtrkseg seg0 = new GPXtrkseg(pts0);
 		GPXtrkseg seg1 = new GPXtrkseg(pts1);
 		
-		ArrayList segs = new ArrayList();
+		ArrayList<GPXtrkseg> segs = new ArrayList<GPXtrkseg>();
 		segs.add(seg0);
 		segs.add(seg1);
 		
@@ -89,7 +89,7 @@ public class GPXcalculatorTest {
 	@Test
 	public void testBearing() {
 
-		double bearing = calc.bearing(obj.trk());
+		double bearing = obj.trk().bearing();
 		assertEquals(40.89, bearing, 0.01);
 		
 	}

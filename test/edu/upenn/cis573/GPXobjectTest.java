@@ -21,18 +21,18 @@ public class GPXobjectTest {
 		GPXtrkpt pt2 = new GPXtrkpt(20, 20, 20, "2012-10-31T15:03:00Z");
 		GPXtrkpt pt3 = new GPXtrkpt(30, 30, 30, "2012-11-01T15:03:00Z");
 		
-		ArrayList pts0 = new ArrayList();
+		ArrayList<GPXtrkpt> pts0 = new ArrayList<GPXtrkpt>();
 		pts0.add(pt0);
 		pts0.add(pt1);
 		
-		ArrayList pts1 = new ArrayList();
+		ArrayList<GPXtrkpt> pts1 = new ArrayList<GPXtrkpt>();
 		pts1.add(pt2);
 		pts1.add(pt3);
 		
 		GPXtrkseg seg0 = new GPXtrkseg(pts0);
 		GPXtrkseg seg1 = new GPXtrkseg(pts1);
 		
-		ArrayList segs = new ArrayList();
+		ArrayList<GPXtrkseg> segs = new ArrayList<GPXtrkseg>();
 		segs.add(seg0);
 		segs.add(seg1);
 		
@@ -43,21 +43,5 @@ public class GPXobjectTest {
 		assertEquals(value, obj.toString());
 	}
 	
-	@Test
-	public void testBearing() {
-		GPXobject obj = new GPXobject(null, null, null);
-		
-		// due north: lat gets bigger, lon stays the same
-		assertEquals(0, obj.bearing(0, 0, 20, 0), 0);
-
-		// due south: lat gets smaller, lon stays the same
-		assertEquals(180, obj.bearing(0, 0, -20, 0), 0);
-
-		// due east: lat stays same, lon gets bigger
-		assertEquals(90, obj.bearing(0, 0, 0, 20), 0);
-
-		// due west: lat stays same, lon gets smaller
-		assertEquals(-90, obj.bearing(0, 0, 0, -20), 0);
-	}
 
 }

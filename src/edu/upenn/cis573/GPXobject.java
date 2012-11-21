@@ -84,14 +84,5 @@ public class GPXobject {
 		return out.toString();
 
     }
-
-    public double bearing(double a, double b, double c, double d) {
-		double y = Math.sin(d-b) * Math.cos(c);
-		double x = Math.cos(a)*Math.sin(c) - Math.sin(a)*Math.cos(c)*Math.cos(d-b);
-				
-		// return the bearing (after converting to degrees)
-		return Math.atan2(y, x) * 360.0 / (2 * Math.PI);
-
-    }
     
 }
