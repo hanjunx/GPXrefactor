@@ -148,8 +148,8 @@ public class GPXparser {
 			}
 		    
 		    // don't care about </trk> and </gpx>
-		    in.next();
-		    in.next();
+		//    in.next();
+		 //   in.next();
 	
 		    // create the GPXobject
 		    object = new GPXobject(objtime, name, trksegs);
