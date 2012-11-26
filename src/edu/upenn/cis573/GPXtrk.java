@@ -13,17 +13,13 @@ public class GPXtrk {
     private String name;
     // a list of track segments
     private ArrayList<GPXtrkseg> trksegs;
-    // reference to parent GPXobject
-    private GPXobject parent;
 
-    public GPXtrk(String name, ArrayList<GPXtrkseg> trksegs, GPXobject parent) {
+    public GPXtrk(String name, ArrayList<GPXtrkseg> trksegs) {
 		this.name = name;
 		this.trksegs = trksegs;
-		this.parent = parent;
     }
 
     public String name() { return name; }
-    public GPXobject parent() { return parent; }
 
     /**
      * Get the track segment for the given index.

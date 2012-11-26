@@ -21,7 +21,7 @@ public class GPXobject {
 
     public GPXobject(String time, String name, ArrayList<GPXtrkseg> trksegs) {
     	this.time = time;
-    	this.trk = new GPXtrk(name, trksegs, this);
+    	this.trk = new GPXtrk(name, trksegs);
     }
 
     /* Accessors */
