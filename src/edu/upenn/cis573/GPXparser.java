@@ -22,146 +22,155 @@ public class GPXparser {
      * @param format A GPXformat object that would be created as the result of calling GPXchecker.checkFormat
      * @returns a GPXobject that holds all the data in the file
      */
-    public static GPXobject parse(String filename, GPXformat format) {
+    //return object
+	private static GPXobject object;
+    
+	//Scanner which uses to read the input
+    private static Scanner in; 
+  
+    // index for reading the list
+    private static int index;
+    
+	//initilize the filed variable
+    private static void init(String filename){
+    	object = null;
+    	index = 0;
+    	
+    	try{
+    		in = new Scanner(new File(filename));
+    	}catch(Exception ex){
+    		ex.printStackTrace();
+    	}
+    	
+    }
+    
+    //method to increase the index and the Scanner in
+    private static void increaseBy(int step){
+    	for(int i = 0; i < step; i ++){
+    		in.next();
+    		index++;
+    	}
+    }
+    
+    //method to parse the element in the list
+    private static String parseElement(){
+    	String element = in.next();
+    	index++;
+    	element = element.substring(0, element.indexOf('<'));
+    	return element;
+    }
+    
+	public static GPXobject parse(String filename, GPXformat format) {
 		// make sure the format is valid before proceeding
+		
 		if (format.isValid() == false) return null;
-	
-		// return value
-		GPXobject object = null;
-	
-		try {
-		    // create a scanner to read the file and set its delimeter
-		    Scanner in = new Scanner(new File(filename));
-		    in.useDelimiter(">");
-	
-		    // get the list of tags
-		    ArrayList<String> tags = format.tags();
-		    // index for reading the list
-		    int index = 0;
-	
-		    // read the <gpx> tag
-		    in.next();
-		    index++;
-	
-		    // next is <time>
-		    in.next();
-		    index++;
-		    
-		    // now the content and </time>
-		    String objtime = in.next();
-		    index++;
-		    //System.out.println("TIME: " + objtime);
-		    objtime = objtime.substring(0, objtime.indexOf('<'));
-		    //System.out.println("time: " + objtime);
 		
-		    // now we're on <trk>
-		    in.next();
-		    index++;
-		    
-		    String name = null;
-		    // next is <name> but it's optional
-		    if (tags.get(index).equals("<name")) {
-		    	in.next();
-		    	index++;
-		    
-		    	// then the content and </name>
-		    	name = in.next();
-		    	index++;
-		    	//System.out.println("NAME: " + name);
-		    	name = name.substring(0, name.indexOf('<'));
-		    	//System.out.println("name: " + name);
-		    }
+		//initilize the variable
+		init(filename);
+		
+		// create a scanner to read the file and set its delimeter
+		in.useDelimiter(">");
 	
-		    // to hold the GPXtrk objects
-		    ArrayList<GPXtrkseg> trksegs = new ArrayList<GPXtrkseg>();
+	    // get the list of tags
+	    ArrayList<String> tags = format.tags();
+	    
+
+	    // read the <gpx> tag
+
+	    // next is <time>
+	    //increase two steps
+	   increaseBy(2); 
+	    
+	    // now the content and </time>
+	    String objtime = parseElement();
+	    //System.out.println("time: " + objtime);
+	
+	    // now we're on <trk>
+	   increaseBy(1);
+	    
+	    String name = null;
+	    // next is <name> but it's optional
+	    if (tags.get(index).equals("<name")) {
+	    	
+	    	increaseBy(1);
+	    
+	    	// then the content and </name>
+	    	name = parseElement();
+	    	//System.out.println("name: " + name);
+	    }
+
+    // to hold the GPXtrk objects
+	    ArrayList<GPXtrkseg> trksegs = new ArrayList<GPXtrkseg>();
 
 
-		    // now we have some number of <trkseg> tags
-		    while (tags.get(index++).equals("<trkseg")) {
-				// consume the token
-				in.next();
-				
-				// to hold the GPXtrkpt objects
-				ArrayList<GPXtrkpt> trkpts = new ArrayList<GPXtrkpt>();
-		
-				// now we have some number of <trkpt> tags
-				while (tags.get(index++).equals("<trkpt")) {
-				    // get the latitude and longitude
-				    String latlon = in.next().trim();
-				    //System.out.println("LATLON: " + latlon);
-		
-				    // the latitude will be something like lat="xx.xxxx"
-				    String lat = latlon.split(" ")[1];
-				    lat = lat.substring(5, lat.length()-1);
-				    //System.out.println("lat: " + lat);
-		
-				    // same for longitude
-				    String lon = latlon.split(" ")[2];
-				    lon = lon.substring(5, lon.length()-1);
-				    //System.out.println("lon: " + lon);
-				    
-		
-				    // read <ele>
-				    in.next();
-				    index++;
-		
-				    // read elevation and </ele>
-				    String ele = in.next();
-				    //System.out.println("ELE: " + ele);
-				    // the elevation will be a number then the </ele tag
-				    ele = ele.substring(0, ele.indexOf('<'));
-				    //System.out.println("ele: " + ele);
-				    index++;
-		
-				    // read <time>
-				    in.next();
-				    index++;
-		
-				    // read time and </time>
-				    String time = in.next();
-				    //System.out.println("TIME: " + time);
-				    // the time will be the time string followed by </time
-				    time = time.substring(0, time.indexOf('<'));
-				    //System.out.println("time: " + time);
-				    index++;
-		
-				    // read </trkpt>
-				    in.next();
-				    index++;
-		
-				    // create a GPXtrkpt object
-				    GPXtrkpt trkpt = new GPXtrkpt(Double.parseDouble(lat), Double.parseDouble(lon), Double.parseDouble(ele), time);
-				    
-				    // put it into the list
-				    trkpts.add(trkpt);
-				}
-		
-				// read </trkseg>
-				in.next();
-		
-				// create a GPXtrkseg object
-				GPXtrkseg trkseg = new GPXtrkseg(trkpts);
-		
-				// add it to the list
-				trksegs.add(trkseg);
-		
+    // now we have some number of <trkseg> tags
+	    while (tags.get(index++).equals("<trkseg")) {
+			// consume the token
+			in.next();
+			
+			// to hold the GPXtrkpt objects
+			ArrayList<GPXtrkpt> trkpts = new ArrayList<GPXtrkpt>();
+	
+			// now we have some number of <trkpt> tags
+			while (tags.get(index++).equals("<trkpt")) {
+			    // get the latitude and longitude
+			    String latlon = in.next().trim();
+			    //System.out.println("LATLON: " + latlon);
+	
+			    // the latitude will be something like lat="xx.xxxx"
+			    String lat = latlon.split(" ")[1];
+			    lat = lat.substring(5, lat.length()-1);
+			    //System.out.println("lat: " + lat);
+	
+			    // same for longitude
+			    String lon = latlon.split(" ")[2];
+			    lon = lon.substring(5, lon.length()-1);
+			    //System.out.println("lon: " + lon);
+			    
+	
+			    // read <ele>
+			   increaseBy(1);
+	
+			    // read elevation and </ele>
+			    String ele = parseElement();
+			    index++;
+	
+			    // read <time>
+			    increaseBy(1);
+	
+			    // read time and </time>
+			    String time = parseElement();
+			    //System.out.println("time: " + time);
+			    index++;
+	
+			    // read </trkpt>
+			    increaseBy(1);
+	
+			    // create a GPXtrkpt object
+			    GPXtrkpt trkpt = new GPXtrkpt(Double.parseDouble(lat), Double.parseDouble(lon), Double.parseDouble(ele), time);
+			    
+			    // put it into the list
+			    trkpts.add(trkpt);
 			}
-		    
-		    // don't care about </trk> and </gpx>
-		    in.next();
-		    in.next();
 	
-		    // create the GPXobject
-		    object = new GPXobject(objtime, name, trksegs);
+			// read </trkseg>
+			in.next();
 	
-		}
-		catch (Exception e) {
-		    e.printStackTrace();
+			// create a GPXtrkseg object
+			GPXtrkseg trkseg = new GPXtrkseg(trkpts);
+	
+			// add it to the list
+			trksegs.add(trkseg);
 	
 		}
-		
-	
-		return object;
+	    
+	    // don't care about </trk> and </gpx>
+	     in.close();
+
+	    // create the GPXobject
+	    object = new GPXobject(objtime, name, trksegs);
+
+	    return object;
     }
 
 }
