@@ -1,6 +1,8 @@
 package edu.upenn.cis573;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Calendar;
 
 import org.junit.Before;
@@ -42,6 +44,27 @@ public class GPXtrkptTest {
 				
 		assert(now.getTimeInMillis() - trackTime < 1000);
 		
+	}
+	
+	@Test
+	public void testBearing() {
+		GPXtrkpt start = new GPXtrkpt(0, 0, 0, "start");
+
+		// due north: lat gets bigger, lon stays the same
+		GPXtrkpt north = new GPXtrkpt(20, 0, 0, "north");
+		assertEquals(0, GPXtrkpt.bearing(start, north), 0);
+
+		// due south: lat gets smaller, lon stays the same
+		GPXtrkpt south = new GPXtrkpt(-20, 0, 0, "south");
+		assertEquals(180, GPXtrkpt.bearing(start, south), 0);
+
+		// due east: lat stays same, lon gets bigger
+		GPXtrkpt east = new GPXtrkpt(0, 20, 0, "east");
+		assertEquals(90, GPXtrkpt.bearing(start, east), 0);
+
+		// due west: lat stays same, lon gets smaller
+		GPXtrkpt west = new GPXtrkpt(0, -20, 0, "west");
+		assertEquals(-90, GPXtrkpt.bearing(start, west), 0);
 	}
 
 }

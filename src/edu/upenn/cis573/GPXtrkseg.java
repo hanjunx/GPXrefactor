@@ -84,23 +84,8 @@ public class GPXtrkseg {
 		    GPXtrkpt pt1 = trkpts.get(j);
 		    GPXtrkpt pt2 = trkpts.get(j + 1);
 		    
-		    // convert lat and lon from degrees to radians
-		    double lat1 = pt1.lat() * 2 * Math.PI / 360.0;
-		    double lon1 = pt1.lon() * 2 * Math.PI / 360.0;
-		    double lat2 = pt2.lat() * 2 * Math.PI / 360.0;
-		    double lon2 = pt2.lon() * 2 * Math.PI / 360.0;
-		    
-		    // use the spherical law of cosines to figure out 2D distance
-		    double d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1)) * GPXtrkpt.R;	
-		    // now we need to take the change in elevation into account
-		    double ele1 = pt1.ele();
-		    double ele2 = pt2.ele();
-		    
-		    // calculate the 3D distance
-		    double distance = Math.sqrt(d*d + (ele1-ele2)*(ele1-ele2));
-		    
 		    // add it to the running total
-		    totalDistance += distance;
+		    totalDistance += GPXtrkpt.calculateDistance(pt1, pt2);
 	    
 		}
 		
