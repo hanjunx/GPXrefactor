@@ -74,41 +74,25 @@ public class GPXtrk {
 	 */
 	public long calculateElapsedTime() {
 	
-		if (this == null) return -1;
-	
-		long t = 0;
+		long time = 0;
 	
 		for (GPXtrkseg trkseg : trksegs) {
 		    // keep a running total of the time for each segment
-		    t += trkseg.calculateElapsedTime();
+		    time += trkseg.calculateElapsedTime();
 		}
 		
-		return t;
+		return time;
 	}
 
 	/**
 	 * Calculate the average speed over the entire track by determining
 	 * the distance traveled and the total time for each segment.
 	 *
-	 * @param trk The track for which to calculate the average speed
 	 * @return the average speed in meters per second.
 	 */
 	public double calculateAverageSpeed() {
-	
-		long time = 0;
-	
-		// iterate over all the segments and calculate the time for each
-	
-		for (GPXtrkseg trkseg : trksegs) {
-		    // keep a running total of the time for each segment
-		    time += trkseg.calculateElapsedTime();
-		}		
-		
-		// figure out the distance in kilometers
-		double distance = calculateDistanceTraveled();
-	
 		// return the average in meters/second
-		return distance/time;
+		return calculateDistanceTraveled() / calculateElapsedTime();
 	
 	}
 
@@ -145,11 +129,11 @@ public class GPXtrk {
 	public int calculateFastestSegment() {
 	
 		int fastestSegment = 0;
-		double fastestTime = 0;
+		double fastestSpeed = 0;
 		
 		int i = 0;
 		for (GPXtrkseg trkseg : trksegs) {
-		    if (trkseg.calculateDistanceTraveled()/trkseg.calculateElapsedTime() >= fastestTime)
+		    if (trkseg.calculateDistanceTraveled()/trkseg.calculateElapsedTime() >= fastestSpeed)
 			fastestSegment = i++;
 		}
 	
