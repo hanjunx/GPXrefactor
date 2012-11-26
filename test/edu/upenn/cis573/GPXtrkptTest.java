@@ -48,22 +48,22 @@ public class GPXtrkptTest {
 	
 	@Test
 	public void testBearing() {
-		GPXtrkpt start = new GPXtrkpt(0, 0, 0, "start");
+		GPXtrkpt start = new GPXtrkpt(0, 0, 0, "2012-10-29T12:03:00Z");
 
 		// due north: lat gets bigger, lon stays the same
-		GPXtrkpt north = new GPXtrkpt(20, 0, 0, "north");
+		GPXtrkpt north = new GPXtrkpt(20, 0, 0, "2012-10-29T15:03:00Z");
 		assertEquals(0, GPXtrkpt.bearing(start, north), 0);
 
 		// due south: lat gets smaller, lon stays the same
-		GPXtrkpt south = new GPXtrkpt(-20, 0, 0, "south");
+		GPXtrkpt south = new GPXtrkpt(-20, 0, 0, "2012-10-29T15:03:00Z");
 		assertEquals(180, GPXtrkpt.bearing(start, south), 0);
 
 		// due east: lat stays same, lon gets bigger
-		GPXtrkpt east = new GPXtrkpt(0, 20, 0, "east");
+		GPXtrkpt east = new GPXtrkpt(0, 20, 0, "2012-10-29T15:03:00Z");
 		assertEquals(90, GPXtrkpt.bearing(start, east), 0);
 
 		// due west: lat stays same, lon gets smaller
-		GPXtrkpt west = new GPXtrkpt(0, -20, 0, "west");
+		GPXtrkpt west = new GPXtrkpt(0, -20, 0, "2012-10-29T15:03:00Z");
 		assertEquals(-90, GPXtrkpt.bearing(start, west), 0);
 	}
 
