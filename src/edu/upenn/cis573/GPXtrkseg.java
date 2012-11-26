@@ -22,7 +22,7 @@ public class GPXtrkseg {
      */
     public GPXtrkpt getTrkpt(int index) {
 		if (index >= trkpts.size()) return null;
-		else return (GPXtrkpt)(trkpts.get(index));
+		else return trkpts.get(index);
     }
 
     /**
@@ -35,10 +35,8 @@ public class GPXtrkseg {
     /**
      * @return an array of track point objects
      */
-    public GPXtrkpt[] getTrkpts() {
-		GPXtrkpt pts[] = new GPXtrkpt[trkpts.size()];
-		for (int i = 0; i < pts.length; i++) pts[i] = (GPXtrkpt)trkpts.get(i);
-		return pts;
+    public ArrayList<GPXtrkpt> getTrkpts() {
+		return trkpts;
     }
     
     /**
@@ -79,13 +77,12 @@ public class GPXtrkseg {
 		double totalDistance = 0;
 		
 		// iterate over all the trkpts
-		GPXtrkpt pts[] = getTrkpts();
 	
-		for (int j = 0; j < pts.length-1; j++) {
+		for (int j = 0; j < trkpts.size()-1; j++) {
 		    
 		    // get this point and the next one
-		    GPXtrkpt pt1 = pts[j];
-		    GPXtrkpt pt2 = pts[j+1];
+		    GPXtrkpt pt1 = trkpts.get(j);
+		    GPXtrkpt pt2 = trkpts.get(j + 1);
 		    
 		    // convert lat and lon from degrees to radians
 		    double lat1 = pt1.lat() * 2 * Math.PI / 360.0;

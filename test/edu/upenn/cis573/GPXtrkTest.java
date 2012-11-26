@@ -8,7 +8,7 @@ public class GPXtrkTest {
 
 	@Test
 	public void testBearing() {
-		GPXtrk trk = new GPXtrk(null, null, null);
+		GPXtrk trk = new GPXtrk(null, null);
 		
 		// due north: lat gets bigger, lon stays the same
 		assertEquals(0, trk.bearing(0, 0, 20, 0), 0);

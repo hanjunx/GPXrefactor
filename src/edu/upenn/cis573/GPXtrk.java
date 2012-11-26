@@ -29,7 +29,7 @@ public class GPXtrk {
      */
     public GPXtrkseg trkseg(int index) {
 		if (index >= trksegs.size()) return null;
-		else return (GPXtrkseg)(trksegs.get(index));
+		else return trksegs.get(index);
     }
 
     /**
@@ -42,10 +42,8 @@ public class GPXtrk {
     /**
      * @return an array containing all of the track segments.
      */
-    public GPXtrkseg[] trksegs() {
-		GPXtrkseg segs[] = new GPXtrkseg[trksegs.size()];
-		for (int i = 0; i < segs.length; i++) segs[i] = (GPXtrkseg)trksegs.get(i);
-		return segs;
+    public ArrayList<GPXtrkseg> trksegs() {
+		return trksegs;
     }
     
     public double bearing(double a, double b, double c, double d) {
@@ -95,12 +93,9 @@ public class GPXtrk {
 	
 		long t = 0;
 	
-		// iterate over all the segments and calculate the time for each
-		GPXtrkseg trksegs[] = trksegs();
-	
-		for (int i = 0; i < trksegs.length; i++) {
+		for (GPXtrkseg trkseg : trksegs) {
 		    // keep a running total of the time for each segment
-		    t += trksegs[i].calculateElapsedTime();
+		    t += trkseg.calculateElapsedTime();
 		}
 		
 		return t;
@@ -119,9 +114,9 @@ public class GPXtrk {
 	
 		// iterate over all the segments and calculate the time for each
 	
-		for (int i = 0; i < trksegs.size(); i++) {
+		for (GPXtrkseg trkseg : trksegs) {
 		    // keep a running total of the time for each segment
-		    time += trksegs.get(i).calculateElapsedTime();
+		    time += trkseg.calculateElapsedTime();
 		}		
 		
 		// figure out the distance in kilometers
@@ -144,11 +139,11 @@ public class GPXtrk {
 	
 		// iterate over all the trksegs
 	
-		for (int i = 0; i < trksegs.size(); i++) {
+		for (GPXtrkseg trkseg : trksegs) {
 		    // calculate the distance for each segment
 		    // add it to the running total
 	
-			totalDistance += trksegs.get(i).calculateDistanceTraveled();
+			totalDistance += trkseg.calculateDistanceTraveled();
 		}
 	
 		return totalDistance;
@@ -164,14 +159,13 @@ public class GPXtrk {
 	 */
 	public int calculateFastestSegment() {
 	
-		trksegs();
-	
 		int fastestSegment = 0;
 		double fastestTime = 0;
-	
-		for (int i = 0; i < trksegs.size(); i++) {
-		    if (trksegs.get(i).calculateDistanceTraveled()/trksegs.get(i).calculateElapsedTime() >= fastestTime)
-			fastestSegment = i;
+		
+		int i = 0;
+		for (GPXtrkseg trkseg : trksegs) {
+		    if (trkseg.calculateDistanceTraveled()/trkseg.calculateElapsedTime() >= fastestTime)
+			fastestSegment = i++;
 		}
 	
 		return fastestSegment;

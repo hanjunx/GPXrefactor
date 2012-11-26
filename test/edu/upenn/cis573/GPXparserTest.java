@@ -3,6 +3,8 @@ package edu.upenn.cis573;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,8 +27,8 @@ public class GPXparserTest {
 //		assertEquals(obj, trk.parent());
 		assertEquals("Walking around a little bit", trk.name());
 		
-		GPXtrkseg[] trksegs = trk.trksegs();
-		GPXtrkpt trkpt = trksegs[0].getTrkpt(0);
+		ArrayList<GPXtrkseg> trksegs = trk.trksegs();
+		GPXtrkpt trkpt = trksegs.get(0).getTrkpt(0);
 
 		assertEquals(47.644548, trkpt.lat(), 0.001);
 		assertEquals(-122.326897, trkpt.lon(), 0.001);
@@ -47,8 +49,8 @@ public class GPXparserTest {
 		
 //		assertEquals(obj, trk.parent());
 		
-		GPXtrkseg[] trksegs = trk.trksegs();
-		GPXtrkpt trkpt = trksegs[0].getTrkpt(0);
+		ArrayList<GPXtrkseg> trksegs = trk.trksegs();
+		GPXtrkpt trkpt = trksegs.get(0).getTrkpt(0);
 
 		assertEquals(47.644548, trkpt.lat(), 0.001);
 		assertEquals(-122.326897, trkpt.lon(), 0.001);
@@ -69,8 +71,8 @@ public class GPXparserTest {
 //		assertEquals(obj, trk.parent());
 		assertEquals("Walking around a little bit", trk.name());
 		
-		GPXtrkseg[] trksegs = trk.trksegs();		
-		assertEquals(0, trksegs[0].getTrkpts().length);
+		ArrayList<GPXtrkseg> trksegs = trk.trksegs();
+		assertEquals(0, trksegs.get(0).getTrkpts().size());
 	}
 
 }
